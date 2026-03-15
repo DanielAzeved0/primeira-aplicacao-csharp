@@ -36,7 +36,7 @@ void exibirFuncoesDoMenu()
     Console.WriteLine("Digite 2 para mostrar todas as bandas");
     Console.WriteLine("Digite 3 para avaliar uma banda");
     Console.WriteLine("Digite 4 para exibir a média de uma banda");
-    Console.WriteLine("Digite 5 para registrar uma banda");
+    Console.WriteLine("Digite 5 para exibir detalhes de uma banda");
     Console.WriteLine("Digite -1 para sair");
 
     int opcaoEscolhidaNumeros = lerOpcaoMenuValida();
@@ -56,7 +56,7 @@ void exibirFuncoesDoMenu()
             exibirMediaBanda();
             break;
         case 5:
-            Console.WriteLine("Você escolheu: Registrar uma banda");
+            exibirDetalhesBanda();
             break;
         case -1:
             Console.WriteLine("Tchau, tchau ;)");
@@ -123,7 +123,7 @@ void mostrarBandasRegistradas()
 void avaliarBanda()
 {
     Console.Clear();
-    Console.WriteLine("**Avaliar uma banda**\n");
+    Console.WriteLine("Avaliar uma banda\n");
     Console.Write("Digite o nome da banda que deseja avaliar: ");
     string nomeDaBanda = Console.ReadLine()!;
 
@@ -180,6 +180,43 @@ void exibirMediaBanda()
     {
         double media = notas.Average();
         Console.WriteLine($"\nA média de notas da banda {nomeDaBanda} é: {media:F2}");
+    }
+
+    Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+    Console.ReadKey();
+    Console.Clear();
+    exibirFuncoesDoMenu();
+}
+
+void exibirDetalhesBanda()
+{
+    Console.Clear();
+    Console.WriteLine("Exibir Detalhes de uma Banda\n");
+    Console.Write("Digite o nome da banda para consultar os detalhes: ");
+    string nomeDaBanda = Console.ReadLine()!;
+
+    if (!notasDasBandas.ContainsKey(nomeDaBanda))
+    {
+        Console.WriteLine($"A banda {nomeDaBanda} não foi encontrada!");
+        Thread.Sleep(2000);
+        Console.Clear();
+        exibirFuncoesDoMenu();
+        return;
+    }
+
+    List<int> notas = notasDasBandas[nomeDaBanda];
+    Console.WriteLine($"\n--- Detalhes da Banda: {nomeDaBanda} ---");
+
+    if (notas.Count == 0)
+    {
+        Console.WriteLine("Esta banda não possui nenhuma avaliação ainda.");
+    }
+    else
+    {
+        Console.WriteLine($"Total de avaliações: {notas.Count}");
+        Console.WriteLine($"Avaliações: {string.Join(", ", notas)}");
+        double media = notas.Average();
+        Console.WriteLine($"Média de notas: {media:F2}");
     }
 
     Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
